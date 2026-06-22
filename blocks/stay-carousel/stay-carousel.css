@@ -1,0 +1,89 @@
+.stay-carousel-container .stay-carousel-wrapper {
+  max-width: 1280px;
+}
+
+.stay-carousel .stay-carousel-track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stay-carousel .stay-card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 280px;
+  padding-bottom: 12px;
+  background: #fff;
+  border: 1px solid var(--hr-hairline);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.stay-carousel .stay-card-image {
+  position: relative;
+  aspect-ratio: 322 / 220;
+  background: var(--hr-black);
+}
+
+.stay-carousel .stay-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stay-carousel .stay-card-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  color: #fff;
+  background: var(--hr-green);
+  border-radius: 4px;
+  box-shadow: 0 8px 12px rgb(0 0 0 / 8%);
+}
+
+.stay-carousel .stay-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  flex: 1 1 auto;
+}
+
+.stay-carousel .stay-card-body p {
+  margin: 0;
+  font-size: var(--body-font-size-s);
+  color: var(--hr-ink);
+}
+
+.stay-carousel .stay-card-body p:first-child {
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+}
+
+.stay-carousel .stay-card-body p:last-child {
+  color: var(--hr-muted);
+}
+
+.stay-carousel .stay-card-cta {
+  margin: 0 12px;
+  border-radius: 50px;
+  border-color: var(--hr-hairline);
+  font-size: var(--body-font-size-s);
+}
+
+@media (width >= 900px) {
+  .stay-carousel .stay-card {
+    width: 322px;
+  }
+}
