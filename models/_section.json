@@ -48,6 +48,9 @@
         "button",
         "title",
         "hero",
+        "booking-bar",
+        "stay-carousel",
+        "experience-grid",
         "cards",
         "columns",
         "fragment"

@@ -9,6 +9,7 @@ import {
   loadSection,
   loadSections,
   loadCSS,
+  createOptimizedPicture,
 } from './aem.js';
 
 /**
@@ -43,6 +44,42 @@ export function moveInstrumentation(from, to) {
       .map(({ nodeName }) => nodeName)
       .filter((attr) => attr.startsWith('data-aue-') || attr.startsWith('data-richtext-')),
   );
+}
+
+/**
+ * Returns a <picture> for the given <img>, optimizing same-origin (AEM/DAM) images
+ * via the Edge Delivery image pipeline. Cross-origin images (e.g. demo assets served
+ * from an external host) are kept as-is, since the optimizer rewrites to same-origin
+ * paths and would otherwise break them.
+ * @param {HTMLImageElement} img source image
+ * @param {Object} [opts]
+ * @param {string} [opts.alt] alt text
+ * @param {boolean} [opts.eager] load eagerly (above the fold)
+ * @param {Array} [opts.breakpoints] optimizer breakpoints
+ * @returns {HTMLPictureElement|null}
+ */
+export function brandPicture(img, { alt = '', eager = false, breakpoints = [{ width: '750' }] } = {}) {
+  if (!img) return null;
+  let sameOrigin = false;
+  try {
+    sameOrigin = new URL(img.src, window.location.href).origin === window.location.origin;
+  } catch (e) {
+    sameOrigin = false;
+  }
+  if (sameOrigin) {
+    const picture = createOptimizedPicture(img.src, alt || img.alt, eager, breakpoints);
+    moveInstrumentation(img, picture.querySelector('img'));
+    return picture;
+  }
+  const picture = img.closest('picture') || (() => {
+    const p = document.createElement('picture');
+    img.replaceWith(p);
+    p.append(img);
+    return p;
+  })();
+  if (alt) img.alt = alt;
+  img.loading = eager ? 'eager' : 'lazy';
+  return picture;
 }
 
 /**
